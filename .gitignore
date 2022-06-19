@@ -9,6 +9,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Fake data
+FakeData/
+
 # User-specific files
 *.rsuser
 *.suo

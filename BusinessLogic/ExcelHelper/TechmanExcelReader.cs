@@ -1,0 +1,82 @@
+using ModelLibrary;
+using OfficeOpenXml;
+
+namespace BusinessLogic.ExcelHelper
+{
+    public class TechmanExcelReader
+    {
+        public IEnumerable<RobotInfo> GetRobotList(string path, string filename)
+        {
+            var robots = ConvertExcelRobots(path, filename);
+            return robots.GroupBy(x => x.PartNumber).Select(y => y.Last());
+
+            // 找重複資料的問題，找到了，但很詭異
+            // var test = robots.GroupBy(x => x.PartNumber).Where(y => y.Count() > 1).Select(z => z.First()).ToList();
+            // foreach (var item in test)
+            // {
+            //     System.Console.WriteLine(item.No);
+            //     System.Console.WriteLine(item.PartNumber);
+            // }
+            // var test2 = robots.GroupBy(x => x.PartNumber).Select(y => y.Last()).ToList();
+            // System.Console.WriteLine("----------");
+
+            // foreach (var item in test2)
+            // {
+            //     foreach (var item2 in test)
+            //     {
+            //         if (item.PartNumber == item2.PartNumber)
+            //         {
+            //             System.Console.WriteLine(item.No);
+            //             System.Console.WriteLine(item.PartNumber);
+            //         }
+            //     }
+            // }
+        }
+
+        private List<RobotInfo> ConvertExcelRobots(string path, string filename)
+        {
+            var robots = new List<RobotInfo>();
+            var filePath = FileUtil.GetFileInfo(path, filename).FullName;
+            FileInfo existingFile = new FileInfo(filePath);
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (ExcelPackage package = new ExcelPackage(existingFile))
+            {
+                //Get the worksheet in the workbook
+                ExcelWorksheet sheet = package.Workbook.Worksheets[4];
+                int endRowIndex = sheet.Dimension.End.Row;
+
+                //轉成物件
+                for (int i = 3; i <= endRowIndex; i++)
+                {
+                    var item = new RobotInfo
+                    {
+                        No = Convert.ToInt32(sheet.Cells[i, 1].Value),
+                        PartNumber = (string)sheet.Cells[i, 2].Value,
+                        Description = (string)sheet.Cells[i, 3].Value,
+                        ProductName = (string)sheet.Cells[i, 4].Value,
+                        ModelName = (string)sheet.Cells[i, 5].Value,
+                        Length = Convert.ToInt32(sheet.Cells[i, 6].Value),
+                        Vision = (string)sheet.Cells[i, 7].Value,
+                        PlugType = (string)sheet.Cells[i, 8].Value,
+                        IsAgv = (string)sheet.Cells[i, 9].Value,
+                        OS = (string)sheet.Cells[i, 10].Value,
+                        HardwardVersion = sheet.Cells[i, 11].Value.ToString(), //double to string
+                        HMI = sheet.Cells[i, 12].Value.ToString(), //double to string
+                        IsSemi = (string)sheet.Cells[i, 13].Value,
+                        ComplexCable = (string)sheet.Cells[i, 14].Value,
+                        IsESD = (string)sheet.Cells[i, 15].Value,
+                        PalletProtect = (string)sheet.Cells[i, 16].Value,
+                        UsbforYes = (string)sheet.Cells[i, 17].Value,
+                        HasCommunication = (string)sheet.Cells[i, 18].Value,
+                        Customer = (string)sheet.Cells[i, 19].Value,
+                    };
+
+                    robots.Add(item);
+                }
+            } // the using statement automatically calls Dispose() which closes the package.
+
+            return robots;
+        }
+    }
+}
