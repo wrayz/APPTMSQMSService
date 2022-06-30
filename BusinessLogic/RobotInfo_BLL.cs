@@ -17,14 +17,14 @@ namespace BusinessLogic
             return await MergeListAsync(list);
         }
 
-        public async Task<RobotInfo> Get()
+        public async Task<RobotInfo> Get(RobotInfo condition)
         {
-            throw new System.NotImplementedException();
+            return await _dao.Get(condition);
         }
 
-        public async Task<IEnumerable<RobotInfo>> GetList()
+        public async Task<IEnumerable<RobotInfo>> GetList(RobotInfo condition)
         {
-            return await _dao.GetList();
+            return await _dao.GetList(condition);
         }
 
         public async Task<int> InsertListAsync(IEnumerable<RobotInfo> list)

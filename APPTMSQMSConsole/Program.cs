@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using BusinessLogic;
+using ModelLibrary;
 using System;
 
 namespace APPTMSQMSConsole // Note: actual namespace depends on the project name.
@@ -14,8 +15,11 @@ namespace APPTMSQMSConsole // Note: actual namespace depends on the project name
             var filename = "TPK83R0102(0) Official Model and Part Number_TRI_210902.xlsx";
             // var count = await bll.ImportData(path, filename); //要觸發 UnhandledExeption 先決條件是呼叫 Task.Wait() 或 Task.Result。
 
-            var item = await bll.GetList();
-            Console.Write(item.First().PartNumber);
+            var item = await bll.GetList(new RobotInfo
+            {
+                Customer = "QUANTA"
+            });
+            Console.Write(item.Count());
         }
     }
 }
