@@ -13,7 +13,7 @@ namespace APPTMSQMSConsole // Note: actual namespace depends on the project name
 
             var path = "FakeData";
             var filename = "TPK83R0102(0) Official Model and Part Number_TRI_210902.xlsx";
-            // var count = await bll.ImportData(path, filename); //要觸發 UnhandledExeption 先決條件是呼叫 Task.Wait() 或 Task.Result。
+            var count = await bll.ImportData(path, filename); //要觸發 UnhandledExeption 先決條件是呼叫 Task.Wait() 或 Task.Result。
 
             var item = await bll.GetList(new RobotInfo
             {
