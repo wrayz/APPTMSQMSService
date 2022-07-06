@@ -19,11 +19,13 @@ namespace BusinessLogic
 
         public async Task<RobotInfo> Get(RobotInfo condition)
         {
+            condition.OS = "Win7";
             return await _dao.Get(condition);
         }
 
         public async Task<IEnumerable<RobotInfo>> GetList(RobotInfo condition)
         {
+            condition.OS = "Win7";
             return await _dao.GetList(condition);
         }
 
