@@ -5,10 +5,16 @@ namespace BusinessLogic.ExcelHelper
 {
     public class TechmanExcelReader
     {
-        public IEnumerable<RobotInfo> GetRobotList(string path, string filename)
+        public IEnumerable<RobotInfo> GetRobotList(ExcelFileInfo excel)
         {
-            var robots = ConvertExcelRobots(path, filename);
-            return robots.GroupBy(x => x.PartNumber).Select(y => y.Last());
+            List<RobotInfo> list = new List<RobotInfo>();
+            foreach (var name in excel.sheetNames)
+            {
+                var robots = ConvertExcelRobots(excel, name);
+                list.AddRange(robots);
+            }
+
+            return list.GroupBy(x => x.PartNumber).Select(y => y.Last());
 
             // 找重複資料的問題，找到了，但很詭異
             // var test = robots.GroupBy(x => x.PartNumber).Where(y => y.Count() > 1).Select(z => z.First()).ToList();
@@ -33,17 +39,17 @@ namespace BusinessLogic.ExcelHelper
             // }
         }
 
-        private List<RobotInfo> ConvertExcelRobots(string path, string filename)
+        private List<RobotInfo> ConvertExcelRobots(ExcelFileInfo excel, string sheetName)
         {
             var robots = new List<RobotInfo>();
-            var filePath = FileUtil.GetFileInfo(path, filename).FullName;
+            var filePath = FileUtil.GetFileInfo(excel.filePath, excel.fileName).FullName;
             FileInfo existingFile = new FileInfo(filePath);
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (ExcelPackage package = new ExcelPackage(existingFile))
             {
                 //Get the worksheet in the workbook
-                ExcelWorksheet sheet = package.Workbook.Worksheets[4];
+                ExcelWorksheet sheet = package.Workbook.Worksheets[sheetName];
                 int endRowIndex = sheet.Dimension.End.Row;
 
                 //轉成物件

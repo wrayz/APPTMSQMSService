@@ -8,11 +8,11 @@ namespace BusinessLogic
     {
         private RobotInfo_DAO _dao = new RobotInfo_DAO();
 
-        public async Task<int> ImportData(string path, string filename)
+        public async Task<int> ImportData(ExcelFileInfo excel)
         {
             var reader = new TechmanExcelReader();
 
-            var list = reader.GetRobotList(path, filename);
+            var list = reader.GetRobotList(excel);
 
             return await MergeListAsync(list);
         }
