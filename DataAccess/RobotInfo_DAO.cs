@@ -121,11 +121,11 @@ namespace DataAccess
             // 一般單傳物件也可以，但是效能不好
             // DynamicParameters可以指定型別使用, 效果接近ADO.NET的Parameters
             var parameters = new DynamicParameters();
-            parameters.Add("No", condition.No, DbType.Int32);
+            // parameters.Add("No", condition.No, DbType.Int32);
             parameters.Add("PartNumber", condition.PartNumber, DbType.String);
             parameters.Add("Description", condition.Description, DbType.String);
             parameters.Add("ProductName", condition.ProductName, DbType.String);
-            parameters.Add("ModelName", condition.ModelName, DbType.String);
+            // parameters.Add("ModelName", condition.ModelName, DbType.String);
             parameters.Add("Length", condition.Length, DbType.Int32);
             parameters.Add("Vision", condition.Vision, DbType.String);
             parameters.Add("PlugType", condition.PlugType, DbType.String);

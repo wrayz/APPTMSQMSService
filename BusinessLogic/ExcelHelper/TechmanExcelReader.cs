@@ -5,13 +5,58 @@ namespace BusinessLogic.ExcelHelper
 {
     public class TechmanExcelReader
     {
+        public IEnumerable<ProductSoftware> GetSoftwareList(ExcelFileInfo excel)
+        {
+            List<ProductSoftware> list = new List<ProductSoftware>();
+            foreach (var name in excel.sheetNames)
+            {
+                var products = ConvertExcelSoftware(excel, name);
+                list.AddRange(products);
+            }
+
+            return list.GroupBy(x => x.PartNumber).Select(y => y.Last());
+        }
+
+        private List<ProductSoftware> ConvertExcelSoftware(ExcelFileInfo excel, string name)
+        {
+            var list = new List<ProductSoftware>();
+            var filePath = FileUtil.GetFileInfo(excel.filePath, excel.fileName).FullName;
+            FileInfo existingFile = new FileInfo(filePath);
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (ExcelPackage package = new ExcelPackage(existingFile))
+            {
+                //Get the worksheet in the workbook
+                ExcelWorksheet sheet = package.Workbook.Worksheets[name];
+                int endRowIndex = sheet.Dimension.End.Row;
+
+                //轉成物件
+                for (int i = 3; i <= endRowIndex; i++)
+                {
+                    var item = new ProductSoftware
+                    {
+                        ProductName = (string)sheet.Cells[i, 2].Value,
+                        PartNumber = (string)sheet.Cells[i, 3].Value,
+                        Description = (string)sheet.Cells[i, 4].Value,
+                        Software = (string)sheet.Cells[i, 5].Value,
+                        Note = (string)sheet.Cells[i, 6].Value,
+                        DongleKey = (string)sheet.Cells[i, 7].Value,
+                    };
+
+                    list.Add(item);
+                }
+            } // the using statement automatically calls Dispose() which closes the package.
+
+            return list;
+        }
+
         public IEnumerable<RobotInfo> GetRobotList(ExcelFileInfo excel)
         {
             List<RobotInfo> list = new List<RobotInfo>();
             foreach (var name in excel.sheetNames)
             {
-                var robots = ConvertExcelRobots(excel, name);
-                list.AddRange(robots);
+                var products = ConvertExcelRobots(excel, name);
+                list.AddRange(products);
             }
 
             return list.GroupBy(x => x.PartNumber).Select(y => y.Last());
