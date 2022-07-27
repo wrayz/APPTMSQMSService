@@ -8,7 +8,7 @@ namespace DataAccess
 {
     public class ProductRobot_DAO
     {
-        private readonly string _ds = "Data Source=TMSQMS.db";
+        private readonly string _ds = @"Data Source=D:\APPTMSQMSService\TMSQMS.db";
 
         public async Task<ProductRobot> Get(ProductRobot condition)
         {
@@ -100,11 +100,12 @@ namespace DataAccess
                         Vision, PlugType, IsAgv, OS, HardwardVersion, HMI, IsSemi,
                         ComplexCable, IsESD, PalletProtect, UsbforYes, HasCommunication, Customer
                 FROM Products
-                WHERE OS != @OS
+                WHERE {"OS != @OS".If(!string.IsNullOrEmpty(condition.OS))}
                     {"AND ModelName = @ModelName".If(!string.IsNullOrEmpty(condition.ModelName))}
                     {"AND Vision = @Vision".If(!string.IsNullOrEmpty(condition.Vision))}
                     {"AND PlugType = @PlugType".If(!string.IsNullOrEmpty(condition.PlugType))}
                     {"AND IsAgv = @IsAgv".If(!string.IsNullOrEmpty(condition.IsAgv))}
+                    {"AND HardwardVersion = @HardwardVersion".If(!string.IsNullOrEmpty(condition.HardwardVersion))}
                     {"AND HMI = @HMI".If(!string.IsNullOrEmpty(condition.HMI))}
                     {"AND IsSemi = @IsSemi".If(!string.IsNullOrEmpty(condition.IsSemi))}
                     {"AND ComplexCable = @ComplexCable".If(!string.IsNullOrEmpty(condition.ComplexCable))}
@@ -125,7 +126,7 @@ namespace DataAccess
             parameters.Add("PartNumber", condition.PartNumber, DbType.String);
             parameters.Add("Description", condition.Description, DbType.String);
             parameters.Add("ProductName", condition.ProductName, DbType.String);
-            // parameters.Add("ModelName", condition.ModelName, DbType.String);
+            parameters.Add("ModelName", condition.ModelName, DbType.String);
             parameters.Add("Length", condition.Length, DbType.Int32);
             parameters.Add("Vision", condition.Vision, DbType.String);
             parameters.Add("PlugType", condition.PlugType, DbType.String);

@@ -4,9 +4,9 @@ using ModelLibrary;
 
 namespace BusinessLogic
 {
-    public class ProductRobot_BLL
+    public class ProductRobot_BLL : IBusinessLogic<ProductRobot>
     {
-        private ProductRobot_DAO _dao = new ProductRobot_DAO();
+        private readonly ProductRobot_DAO _dao = new ProductRobot_DAO();
 
         public async Task<int> ImportData(ExcelFileInfo excel)
         {
@@ -19,13 +19,13 @@ namespace BusinessLogic
 
         public async Task<ProductRobot> Get(ProductRobot condition)
         {
-            condition.OS = "Win7";
+            DefaultCondition(ref condition);
             return await _dao.Get(condition);
         }
 
         public async Task<IEnumerable<ProductRobot>> GetList(ProductRobot condition)
         {
-            condition.OS = "Win7";
+            DefaultCondition(ref condition);
             return await _dao.GetList(condition);
         }
 
@@ -42,6 +42,20 @@ namespace BusinessLogic
         public async Task<int> DeleteListAsync()
         {
             return await _dao.DeleteListAsync();
+        }
+
+        private void DefaultCondition(ref ProductRobot condition)
+        {
+            //不再出Win7版, DAO層邏輯是Not
+            condition.OS = "Win7";
+            //只出TRI相機
+            condition.HardwardVersion = "3.2A";
+            //一定只出抗靜電
+            condition.IsESD = "Yes";
+            //不會用Conti需求料號
+            condition.UsbforYes = "No";
+            //一般不會查Palletizing用手臂料號
+            condition.PalletProtect = "No";
         }
     }
 }
