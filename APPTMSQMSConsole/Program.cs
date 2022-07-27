@@ -9,7 +9,7 @@ namespace APPTMSQMSConsole // Note: actual namespace depends on the project name
     {
         static async Task Main(string[] args)
         {
-            var bll = new RobotInfo_BLL();
+            var bll = new ProductRobot_BLL();
 
             // 匯入料號檔案 + CRUD
             var excel = new ExcelFileInfo
@@ -20,7 +20,7 @@ namespace APPTMSQMSConsole // Note: actual namespace depends on the project name
             };
             var count = await bll.ImportData(excel); //要觸發 UnhandledExeption 先決條件是呼叫 Task.Wait() 或 Task.Result。
 
-            var item = await bll.GetList(new RobotInfo
+            var item = await bll.GetList(new ProductRobot
             {
                 Customer = "QUANTA"
             });

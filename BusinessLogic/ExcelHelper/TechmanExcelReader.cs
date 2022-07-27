@@ -50,9 +50,9 @@ namespace BusinessLogic.ExcelHelper
             return list;
         }
 
-        public IEnumerable<RobotInfo> GetRobotList(ExcelFileInfo excel)
+        public IEnumerable<ProductRobot> GetRobotList(ExcelFileInfo excel)
         {
-            List<RobotInfo> list = new List<RobotInfo>();
+            List<ProductRobot> list = new List<ProductRobot>();
             foreach (var name in excel.sheetNames)
             {
                 var products = ConvertExcelRobots(excel, name);
@@ -84,9 +84,9 @@ namespace BusinessLogic.ExcelHelper
             // }
         }
 
-        private List<RobotInfo> ConvertExcelRobots(ExcelFileInfo excel, string sheetName)
+        private List<ProductRobot> ConvertExcelRobots(ExcelFileInfo excel, string sheetName)
         {
-            var robots = new List<RobotInfo>();
+            var robots = new List<ProductRobot>();
             var filePath = FileUtil.GetFileInfo(excel.filePath, excel.fileName).FullName;
             FileInfo existingFile = new FileInfo(filePath);
 
@@ -100,7 +100,7 @@ namespace BusinessLogic.ExcelHelper
                 //轉成物件
                 for (int i = 3; i <= endRowIndex; i++)
                 {
-                    var item = new RobotInfo
+                    var item = new ProductRobot
                     {
                         No = Convert.ToInt32(sheet.Cells[i, 1].Value),
                         PartNumber = (string)sheet.Cells[i, 2].Value,

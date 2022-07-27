@@ -6,33 +6,33 @@ using System.Data;
 
 namespace DataAccess
 {
-    public class RobotInfo_DAO
+    public class ProductRobot_DAO
     {
         private readonly string _ds = "Data Source=TMSQMS.db";
 
-        public async Task<RobotInfo> Get(RobotInfo condition)
+        public async Task<ProductRobot> Get(ProductRobot condition)
         {
             string sql = GenerateQuerySql(condition);
             var parameters = GenerateParameters(condition);
 
             using (var connection = new SqliteConnection(_ds))
             {
-                return await connection.QueryFirstOrDefaultAsync<RobotInfo>(sql, parameters);
+                return await connection.QueryFirstOrDefaultAsync<ProductRobot>(sql, parameters);
             }
         }
 
-        public async Task<IEnumerable<RobotInfo>> GetList(RobotInfo condition)
+        public async Task<IEnumerable<ProductRobot>> GetList(ProductRobot condition)
         {
             string sql = GenerateQuerySql(condition);
             var parameters = GenerateParameters(condition);
 
             using (var connection = new SqliteConnection(_ds))
             {
-                return await connection.QueryAsync<RobotInfo>(sql, parameters);
+                return await connection.QueryAsync<ProductRobot>(sql, parameters);
             }
         }
 
-        public async Task<int> InsertListAsync(IEnumerable<RobotInfo> list)
+        public async Task<int> InsertListAsync(IEnumerable<ProductRobot> list)
         {
             var parameters = GenerateParameterList(list);
             var sql =
@@ -46,7 +46,7 @@ namespace DataAccess
             return await ExecuteListAsync(sql, parameters);
         }
 
-        public async Task<int> MergeListAsync(IEnumerable<RobotInfo> list)
+        public async Task<int> MergeListAsync(IEnumerable<ProductRobot> list)
         {
             var parameters = GenerateParameterList(list);
             var sql =
@@ -93,7 +93,7 @@ namespace DataAccess
             return count;
         }
 
-        private string GenerateQuerySql(RobotInfo condition)
+        private string GenerateQuerySql(ProductRobot condition)
         {
             return $@"
                 SELECT PartNumber, Description, ProductName, ModelName, Length,
@@ -116,7 +116,7 @@ namespace DataAccess
             ";
         }
 
-        private DynamicParameters GenerateParameters(RobotInfo condition)
+        private DynamicParameters GenerateParameters(ProductRobot condition)
         {
             // 一般單傳物件也可以，但是效能不好
             // DynamicParameters可以指定型別使用, 效果接近ADO.NET的Parameters
@@ -144,7 +144,7 @@ namespace DataAccess
             return parameters;
         }
 
-        private List<DynamicParameters> GenerateParameterList(IEnumerable<RobotInfo> list)
+        private List<DynamicParameters> GenerateParameterList(IEnumerable<ProductRobot> list)
         {
             var parameters = new List<DynamicParameters>();
 

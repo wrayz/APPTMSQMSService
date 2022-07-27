@@ -1,6 +1,6 @@
 ﻿namespace ModelLibrary
 {
-    public class RobotInfo
+    public class ProductRobot
     {
         public int No { get; set; }
         public string PartNumber { get; set; }

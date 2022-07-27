@@ -4,9 +4,9 @@ using ModelLibrary;
 
 namespace BusinessLogic
 {
-    public class RobotInfo_BLL
+    public class ProductRobot_BLL
     {
-        private RobotInfo_DAO _dao = new RobotInfo_DAO();
+        private ProductRobot_DAO _dao = new ProductRobot_DAO();
 
         public async Task<int> ImportData(ExcelFileInfo excel)
         {
@@ -17,24 +17,24 @@ namespace BusinessLogic
             return await MergeListAsync(list);
         }
 
-        public async Task<RobotInfo> Get(RobotInfo condition)
+        public async Task<ProductRobot> Get(ProductRobot condition)
         {
             condition.OS = "Win7";
             return await _dao.Get(condition);
         }
 
-        public async Task<IEnumerable<RobotInfo>> GetList(RobotInfo condition)
+        public async Task<IEnumerable<ProductRobot>> GetList(ProductRobot condition)
         {
             condition.OS = "Win7";
             return await _dao.GetList(condition);
         }
 
-        public async Task<int> InsertListAsync(IEnumerable<RobotInfo> list)
+        public async Task<int> InsertListAsync(IEnumerable<ProductRobot> list)
         {
             return await _dao.InsertListAsync(list);
         }
 
-        public async Task<int> MergeListAsync(IEnumerable<RobotInfo> list)
+        public async Task<int> MergeListAsync(IEnumerable<ProductRobot> list)
         {
             return await _dao.MergeListAsync(list);
         }
