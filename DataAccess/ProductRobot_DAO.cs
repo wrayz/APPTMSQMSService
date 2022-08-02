@@ -8,7 +8,7 @@ namespace DataAccess
 {
     public class ProductRobot_DAO
     {
-        private readonly string _ds = @"Data Source=D:\APPTMSQMSService\TMSQMS.db";
+        private readonly string _ds = @"Data Source=D:\projects\APPTMSQMSService\TMSQMS.db";
 
         public async Task<ProductRobot> Get(ProductRobot condition)
         {

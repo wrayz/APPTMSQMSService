@@ -10,7 +10,7 @@ namespace APPTMSQMSConsole // Note: actual namespace depends on the project name
         static async Task Main(string[] args)
         {
             await ExecuteProductRobot();
-            var bll = new ProductSoftWare_BLL();
+            //var bll = new ProductSoftWare_BLL();
         }
 
         private static async Task ExecuteProductRobot()

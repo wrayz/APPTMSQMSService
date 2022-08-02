@@ -36,22 +36,6 @@ namespace APPTMSQMSWpf
             listBox.ItemsSource = hmiList.Distinct();
         }
 
-        private async void btnbtnGetStdRobotPartnumber_Click(object sender, RoutedEventArgs e)
-        {
-            var list = await _robotBLL.GetList(new ProductRobot()
-            {
-                Vision ="Yes",
-                PlugType = "US",
-                IsAgv = "No",
-                HMI = "1.84",
-                IsSemi = "No",
-                ComplexCable = "3M",
-                HasCommunication = "No"
-            });
-
-            this.datagrid.ItemsSource = list;
-        }
-
         private async void btnImport_Click(object sender, RoutedEventArgs e)
         {
             ExcelFileInfo? excel = new()
@@ -65,6 +49,66 @@ namespace APPTMSQMSWpf
             excel.sheetNames = new string[] { "" };
             count += await _softwaretBLL.ImportData(excel);
             Console.WriteLine(count);
+        }
+
+        private async void btnGetStandardRobot_Click(object sender, RoutedEventArgs e)
+        {
+            var list = await _robotBLL.GetStandardRobotList(new ProductRobot()
+            {
+                HMI = "1.84",
+            });
+
+            this.datagrid.ItemsSource = null;
+            this.datagrid.ItemsSource = list;
+        }
+
+        private async void btnbtnGetTM5_700_Click(object sender, RoutedEventArgs e)
+        {
+            var list = await _robotBLL.GetStandardRobotList(new ProductRobot()
+            {
+                ModelName = "TM5-700",
+                HMI = "1.84",
+            });
+
+            this.datagrid.ItemsSource = null;
+            this.datagrid.ItemsSource = list;
+        }
+
+        private async void btnbtnGetTM5_900_Click(object sender, RoutedEventArgs e)
+        {
+
+            var list = await _robotBLL.GetStandardRobotList(new ProductRobot()
+            {
+                ModelName = "TM5-900",
+                HMI = "1.84",
+            });
+
+            this.datagrid.ItemsSource = null;
+            this.datagrid.ItemsSource = list;
+        }
+
+        private async void btnGetTM14_Click(object sender, RoutedEventArgs e)
+        {
+            var list = await _robotBLL.GetStandardRobotList(new ProductRobot()
+            {
+                ModelName = "TM14",
+                HMI = "1.84",
+            });
+
+            this.datagrid.ItemsSource = null;
+            this.datagrid.ItemsSource = list;
+        }
+
+        private async void btnGetTM12_Click(object sender, RoutedEventArgs e)
+        {
+            var list = await _robotBLL.GetStandardRobotList(new ProductRobot()
+            {
+                ModelName = "TM12",
+                HMI = "1.84",
+            });
+
+            this.datagrid.ItemsSource = null;
+            this.datagrid.ItemsSource = list;
         }
     }
 }

@@ -11,10 +11,14 @@
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="btnGetStdRobotPartnumber" Content="最新標準料號" HorizontalAlignment="Left" Margin="19,95,0,0" VerticalAlignment="Top" Height="65" Width="145" Click="btnbtnGetStdRobotPartnumber_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnGetStdRobotPartnumber" Content="最新標準料號" HorizontalAlignment="Left" Margin="19,95,0,0" VerticalAlignment="Top" Height="65" Width="145" Click="btnGetStandardRobot_Click" Grid.ColumnSpan="2"/>
         <DataGrid x:Name="datagrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="185,176,55,10" Grid.ColumnSpan="2"/>
         <ListBox x:Name="listBox" Grid.ColumnSpan="2" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="19,176,869,31"/>
         <Button x:Name="btnImport" Content="匯入" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Top" Height="45" Width="145" Click="btnImport_Click"/>
+        <Button x:Name="btnGetTM5_700" Content="TM5-700" HorizontalAlignment="Left" Margin="204,95,0,0" VerticalAlignment="Top" Height="65" Width="145" Click="btnbtnGetTM5_700_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnGetTM12" Content="TM12" HorizontalAlignment="Left" Margin="803,95,0,0" VerticalAlignment="Top" Height="65" Width="145" Click="btnGetTM12_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnGetTM14" Content="TM14" HorizontalAlignment="Left" Margin="582,95,0,0" VerticalAlignment="Top" Height="65" Width="144" Click="btnGetTM14_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnGetTM5_900" Content="TM5-900" HorizontalAlignment="Left" Margin="385,95,0,0" VerticalAlignment="Top" Height="65" Width="145" Click="btnbtnGetTM5_900_Click" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>
