@@ -38,7 +38,7 @@ namespace BusinessLogic.ExcelHelper
                         ProductName = (string)sheet.Cells[i, 2].Value,
                         PartNumber = (string)sheet.Cells[i, 3].Value,
                         Description = (string)sheet.Cells[i, 4].Value,
-                        Software = (string)sheet.Cells[i, 5].Value,
+                        ProductBase = (string)sheet.Cells[i, 5].Value,
                         Note = (string)sheet.Cells[i, 6].Value,
                         DongleKey = (string)sheet.Cells[i, 7].Value,
                     };

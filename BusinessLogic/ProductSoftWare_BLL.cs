@@ -1,10 +1,22 @@
 // See https://aka.ms/new-console-template for more information
+using BusinessLogic.ExcelHelper;
+using DataAccess;
 using ModelLibrary;
 
 namespace BusinessLogic
 {
     public class ProductSoftware_BLL : IBusinessLogic<ProductSoftware>
     {
+        private readonly ProductSoftware_DAO _dao = new ProductSoftware_DAO();
+
+        public async Task<int> ImportData(ExcelFileInfo excel)
+        {
+            var reader = new TechmanExcelReader();
+            var list = reader.GetSoftwareList(excel);
+
+            return await MergeListAsync(list);
+        }
+
         public Task<int> DeleteListAsync()
         {
             throw new NotImplementedException();
@@ -25,14 +37,9 @@ namespace BusinessLogic
             throw new NotImplementedException();
         }
 
-        public Task<int> ImportData(ExcelFileInfo excel)
+        public async Task<int> MergeListAsync(IEnumerable<ProductSoftware> list)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> MergeListAsync(IEnumerable<ProductSoftware> list)
-        {
-            throw new NotImplementedException();
+            return await _dao.MergeListAsync(list);
         }
     }
 }

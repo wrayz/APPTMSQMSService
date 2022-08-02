@@ -36,22 +36,24 @@ namespace APPTMSQMSWpf
             listBox.ItemsSource = hmiList.Distinct();
         }
 
-        private async void btnImport_Click(object sender, RoutedEventArgs e)
+        private async void BtnImport_Click(object sender, RoutedEventArgs e)
         {
+            await _robotBLL.DeleteListAsync();
             ExcelFileInfo? excel = new()
             {
                 filePath = "FakeData",
-                fileName = "TPK83R0102(0) Official Model and Part Number_TRI_210902.xlsx",
+                fileName = "TPK83R0102(0) Official Model and Part Number_TRI_211118.xlsx",
                 sheetNames = new string[] { "Robots-TM5A PN HW3.2", "Robots-TMAA PN HW3.2" }
             };
             var count = await _robotBLL.ImportData(excel);
-
-            excel.sheetNames = new string[] { "" };
+            /*
+            excel.sheetNames = new string[] { "Software" };
             count += await _softwaretBLL.ImportData(excel);
+            */
             Console.WriteLine(count);
         }
 
-        private async void btnGetStandardRobot_Click(object sender, RoutedEventArgs e)
+        private async void BtnGetStandardRobot_Click(object sender, RoutedEventArgs e)
         {
             var list = await _robotBLL.GetStandardRobotList(new ProductRobot()
             {
@@ -62,7 +64,7 @@ namespace APPTMSQMSWpf
             this.datagrid.ItemsSource = list;
         }
 
-        private async void btnbtnGetTM5_700_Click(object sender, RoutedEventArgs e)
+        private async void BtnGetTM5_700_Click(object sender, RoutedEventArgs e)
         {
             var list = await _robotBLL.GetStandardRobotList(new ProductRobot()
             {
@@ -74,7 +76,7 @@ namespace APPTMSQMSWpf
             this.datagrid.ItemsSource = list;
         }
 
-        private async void btnbtnGetTM5_900_Click(object sender, RoutedEventArgs e)
+        private async void BtnGetTM5_900_Click(object sender, RoutedEventArgs e)
         {
 
             var list = await _robotBLL.GetStandardRobotList(new ProductRobot()
@@ -87,7 +89,7 @@ namespace APPTMSQMSWpf
             this.datagrid.ItemsSource = list;
         }
 
-        private async void btnGetTM14_Click(object sender, RoutedEventArgs e)
+        private async void BtnGetTM14_Click(object sender, RoutedEventArgs e)
         {
             var list = await _robotBLL.GetStandardRobotList(new ProductRobot()
             {
@@ -99,7 +101,7 @@ namespace APPTMSQMSWpf
             this.datagrid.ItemsSource = list;
         }
 
-        private async void btnGetTM12_Click(object sender, RoutedEventArgs e)
+        private async void BtnGetTM12_Click(object sender, RoutedEventArgs e)
         {
             var list = await _robotBLL.GetStandardRobotList(new ProductRobot()
             {
