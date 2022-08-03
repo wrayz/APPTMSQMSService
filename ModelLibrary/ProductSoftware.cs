@@ -2,6 +2,8 @@ namespace ModelLibrary
 {
     public class ProductSoftware
     {
+        public int Id { get; set; }
+
         /// <summary>
         /// Add-on of 
         /// </summary>

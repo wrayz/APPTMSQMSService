@@ -102,7 +102,7 @@ namespace BusinessLogic.ExcelHelper
                 {
                     var item = new ProductRobot
                     {
-                        No = Convert.ToInt32(sheet.Cells[i, 1].Value),
+                        //Id = Convert.ToInt32(sheet.Cells[i, 1].Value),
                         PartNumber = (string)sheet.Cells[i, 2].Value,
                         Description = (string)sheet.Cells[i, 3].Value,
                         ProductName = (string)sheet.Cells[i, 4].Value,

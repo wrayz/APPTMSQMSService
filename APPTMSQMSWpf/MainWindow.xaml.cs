@@ -26,14 +26,15 @@ namespace APPTMSQMSWpf
         private readonly ProductSoftware_BLL _softwaretBLL = new();
         public MainWindow()
         {
+            /*
             var list = _robotBLL.GetList(new ProductRobot() { }).Result;
             var hmiList = new List<string>();
             foreach (var item in list)
                 hmiList.Add(item.HMI);
-
+            */
             InitializeComponent();
 
-            listBox.ItemsSource = hmiList.Distinct();
+            //listBox.ItemsSource = hmiList.Distinct();
         }
 
         private async void BtnImport_Click(object sender, RoutedEventArgs e)

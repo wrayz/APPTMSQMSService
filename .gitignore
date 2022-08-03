@@ -12,6 +12,9 @@
 # Fake data
 FakeData/
 TMSQMS.db
+DataAccess/Migrations/
+DataAccess/*.db-shm
+DataAccess/*.db-wal
 
 # User-specific files
 *.rsuser

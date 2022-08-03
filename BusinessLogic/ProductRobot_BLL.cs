@@ -8,6 +8,15 @@ namespace BusinessLogic
     {
         private readonly ProductRobot_DAO _dao = new ProductRobot_DAO();
 
+        private readonly DataAccessContext _db = new();
+
+
+        public async Task<int> CreateRobotList(IEnumerable<ProductRobot> list)
+        {
+            await _db.AddRangeAsync(list);
+            return _db.SaveChanges();
+        }
+
         /// <summary>
         /// ¶×¤JExcel¸ê®Æ
         /// </summary>
@@ -18,7 +27,8 @@ namespace BusinessLogic
             var reader = new TechmanExcelReader();
             var list = reader.GetRobotList(excel);
 
-            return await MergeListAsync(list);
+            return await CreateRobotList(list);
+            //return await MergeListAsync(list);
         }
 
         /// <summary>
