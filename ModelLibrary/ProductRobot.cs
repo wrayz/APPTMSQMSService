@@ -2,13 +2,13 @@
 {
     public class ProductRobot
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string ModelName { get; set; }
         public string Customer { get; set; }
         public string PartNumber { get; set; }
         public string Description { get; set; }
         public string ProductName { get; set; }
-        public int Length { get; set; }
+        public int? Length { get; set; }
         public string Vision { get; set; }
         public string PlugType { get; set; }
         public string IsAgv { get; set; }

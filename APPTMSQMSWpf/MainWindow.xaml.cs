@@ -22,19 +22,26 @@ namespace APPTMSQMSWpf
     /// </summary>
     public partial class MainWindow : Window
     {
+        private IEnumerable<ProductRobot>? _robotList;
+
         private readonly ProductRobot_BLL _robotBLL = new();
         private readonly ProductSoftware_BLL _softwaretBLL = new();
         public MainWindow()
-        {
-            /*
-            var list = _robotBLL.GetList(new ProductRobot() { }).Result;
-            var hmiList = new List<string>();
-            foreach (var item in list)
-                hmiList.Add(item.HMI);
-            */
+        {         
             InitializeComponent();
 
-            //listBox.ItemsSource = hmiList.Distinct();
+            GetRobotList();
+            BidingData();
+        }
+
+        private void GetRobotList()
+        {
+            _robotList = _robotBLL.GetList().Result;
+        }
+
+        private void BidingData()
+        {
+            cbxRobot.ItemsSource = _robotList.Select(p => p.ModelName).Distinct().ToList();
         }
 
         private async void BtnImport_Click(object sender, RoutedEventArgs e)

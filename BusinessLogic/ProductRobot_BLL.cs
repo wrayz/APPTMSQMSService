@@ -6,10 +6,9 @@ namespace BusinessLogic
 {
     public class ProductRobot_BLL : IBusinessLogic<ProductRobot>
     {
-        private readonly ProductRobot_DAO _dao = new ProductRobot_DAO();
+        private readonly ProductRobot_DAO _dao = new();
 
         private readonly DataAccessContext _db = new();
-
 
         public async Task<int> CreateRobotList(IEnumerable<ProductRobot> list)
         {
@@ -60,6 +59,15 @@ namespace BusinessLogic
         /// <summary>
         /// 取得手臂清單資料
         /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<ProductRobot>> GetList()
+        {
+            return await _dao.GetList();
+        }
+
+        /// <summary>
+        /// 取得手臂清單資料
+        /// </summary>
         /// <param name="condition"></param>
         /// <returns></returns>
         public async Task<IEnumerable<ProductRobot>> GetList(ProductRobot condition)
@@ -103,18 +111,10 @@ namespace BusinessLogic
         /// <param name="condition"></param>
         private void DefaultCondition(ref ProductRobot condition)
         {
-            //台灣都用US
-            condition.PlugType = "US";
-            //不再出Win7版, DAO層邏輯是Not
-            condition.OS = "Win7";
-            //只出TRI相機
-            condition.HardwardVersion = "3.2A";
             //一定只出抗靜電
             condition.IsESD = "Yes";
             //不會用Conti需求料號
             condition.UsbforYes = "No";
-            //一般不會查Palletizing用手臂料號
-            condition.PalletProtect = "No";
         }
     }
 }

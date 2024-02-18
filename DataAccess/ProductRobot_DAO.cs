@@ -8,7 +8,7 @@ namespace DataAccess
 {
     public class ProductRobot_DAO
     {
-        private readonly string _ds = @"Data Source=D:\APPTMSQMSService\TMSQMS.db";
+        private readonly string _ds = @"Data Source=D:\APPTMSQMSService\DataAccess\TMSQMS.db";
 
         public async Task<ProductRobot> Get(ProductRobot condition)
         {
@@ -21,11 +21,19 @@ namespace DataAccess
             }
         }
 
+        public async Task<IEnumerable<ProductRobot>> GetList() 
+        {
+            string sql = GenerateQuerySql();
+            using (var connection = new SqliteConnection(_ds))
+            {
+                return await connection.QueryAsync<ProductRobot>(sql);
+            }
+        }
+
         public async Task<IEnumerable<ProductRobot>> GetList(ProductRobot condition)
         {
             string sql = GenerateQuerySql(condition);
-            var parameters = GenerateParameters(condition);
-
+            DynamicParameters parameters = GenerateParameters(condition);
             using (var connection = new SqliteConnection(_ds))
             {
                 return await connection.QueryAsync<ProductRobot>(sql, parameters);
@@ -37,7 +45,7 @@ namespace DataAccess
             var parameters = GenerateParameterList(list);
             var sql =
             @"
-                INSERT INTO Products VALUES
+                INSERT INTO ProductRobots VALUES
                 (@No, @PartNumber, @Description, @ProductName, @ModelName, @Length,
                 @Vision, @PlugType, @IsAgv, @OS, @HardwardVersion, @HMI, @IsSemi,
                 @ComplexCable, @IsESD, @PalletProtect, @UsbforYes, @HasCommunication, @Customer)
@@ -51,7 +59,7 @@ namespace DataAccess
             var parameters = GenerateParameterList(list);
             var sql =
             @"
-                INSERT OR REPLACE INTO Products (
+                INSERT OR REPLACE INTO ProductRobots (
                     No, PartNumber, Description, ProductName, ModelName, Length,
                     Vision, PlugType, IsAgv, OS, HardwardVersion, HMI, IsSemi,
                     ComplexCable, IsESD, PalletProtect, UsbforYes, HasCommunication, Customer
@@ -93,13 +101,22 @@ namespace DataAccess
             return count;
         }
 
+        private string GenerateQuerySql()
+        {
+            return $@"
+                SELECT PartNumber, Description, ProductName, ModelName, Length,
+                        Vision, PlugType, IsAgv, OS, HardwardVersion, HMI, IsSemi,
+                        ComplexCable, IsESD, PalletProtect, UsbforYes, HasCommunication, Customer
+                FROM ProductRobots";
+        }
+
         private string GenerateQuerySql(ProductRobot condition)
         {
             return $@"
                 SELECT PartNumber, Description, ProductName, ModelName, Length,
                         Vision, PlugType, IsAgv, OS, HardwardVersion, HMI, IsSemi,
                         ComplexCable, IsESD, PalletProtect, UsbforYes, HasCommunication, Customer
-                FROM Products
+                FROM ProductRobots
                 WHERE {"OS != @OS".If(!string.IsNullOrEmpty(condition.OS))}
                     {"AND ModelName = @ModelName".If(!string.IsNullOrEmpty(condition.ModelName))}
                     {"AND Vision = @Vision".If(!string.IsNullOrEmpty(condition.Vision))}
