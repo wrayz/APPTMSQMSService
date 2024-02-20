@@ -11,7 +11,7 @@ namespace BusinessLogic
 
         public async Task<int> ImportData(ExcelFileInfo excel)
         {
-            var reader = new TechmanExcelReader();
+            var reader = new TechmanExcelHelper();
             var list = reader.GetSoftwareList(excel);
 
             return await MergeListAsync(list);

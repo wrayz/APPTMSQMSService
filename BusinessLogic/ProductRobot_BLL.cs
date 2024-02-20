@@ -23,7 +23,7 @@ namespace BusinessLogic
         /// <returns></returns>
         public async Task<int> ImportData(ExcelFileInfo excel)
         {
-            var reader = new TechmanExcelReader();
+            var reader = new TechmanExcelHelper();
             var list = reader.GetRobotList(excel);
 
             return await CreateRobotList(list);
@@ -37,11 +37,11 @@ namespace BusinessLogic
         /// <returns></returns>
         public async Task<IEnumerable<ProductRobot>> GetStandardRobotList(ProductRobot condition)
         {
-            condition.Vision = "Yes";
-            condition.IsAgv = "No";
+            condition.IsVision = "Yes";
+            condition.IsDC = "No";
             condition.ComplexCable = "3M";
-            condition.IsSemi = "No";
-            condition.HasCommunication = "No";
+            condition.HasSemiCertificate = "No";
+            condition.HasOptionCommunication = "No";
             return await GetList(condition);
         }
 
@@ -112,9 +112,9 @@ namespace BusinessLogic
         private void DefaultCondition(ref ProductRobot condition)
         {
             //一定只出抗靜電
-            condition.IsESD = "Yes";
+            condition.HasESD = "Yes";
             //不會用Conti需求料號
-            condition.UsbforYes = "No";
+            condition.UsbforUserManual = "No";
         }
     }
 }

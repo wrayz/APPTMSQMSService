@@ -10,6 +10,43 @@ namespace DataAccess
     {
         private readonly string _ds = @"Data Source=D:\APPTMSQMSService\DataAccess\TMSQMS.db";
 
+        private void InitTable()
+        {
+            if (File.Exists(_ds)) return;
+            using (var cn = new SqliteConnection(_ds))
+            {
+                cn.Execute(@"
+                        CREATE TABLE ProductRobots (
+                            Id INTEGER AUTOINCREMENT,
+                            PartNumber VARCHAR(100),
+                            Description NVARCHAR(200),
+                            Specification VARCHAR(50),
+                            ProductLine VARCHAR(50),
+                            ModelName VARCHAR(50),
+                            OfficialProductName VARCHAR(50),
+                            Length INTEGER,
+                            IsVision VARCHAR(5),
+                            PlugType VARCHAR(5),
+                            IsDC VARCHAR(5),
+                            OS VARCHAR(10),
+                            HardwardVersion VARCHAR(5),
+                            HMI VARCHAR(5),
+                            HasSemiCertificate VARCHAR(5),
+                            ComplexCable VARCHAR(50),
+                            HasESD VARCHAR(5),
+                            PalletProtect VARCHAR(5),
+                            UsbforUserManual VARCHAR(5),
+                            HasOptionCommunication VARCHAR(5),
+                            Customer VARCHAR(50),
+                            HasCncCover VARCHAR(5),
+                            Palletizing VARCHAR(5),
+                            HasLightModule VARCHAR(5),
+                            DDR VARCHAR(5),
+                            CONSTRAINT Player_PK PRIMARY KEY (Id)
+                        ");
+            }
+        }
+
         public async Task<ProductRobot> Get(ProductRobot condition)
         {
             string sql = GenerateQuerySql(condition);
@@ -42,6 +79,8 @@ namespace DataAccess
 
         public async Task<int> InsertListAsync(IEnumerable<ProductRobot> list)
         {
+            InitTable();
+
             var parameters = GenerateParameterList(list);
             var sql =
             @"
@@ -77,7 +116,7 @@ namespace DataAccess
         {
             string sql =
             @"
-                DELETE FROM Products
+                DELETE FROM ProductRobots
             ";
             return await ExecuteListAsync(sql);
         }
@@ -119,17 +158,17 @@ namespace DataAccess
                 FROM ProductRobots
                 WHERE {"OS != @OS".If(!string.IsNullOrEmpty(condition.OS))}
                     {"AND ModelName = @ModelName".If(!string.IsNullOrEmpty(condition.ModelName))}
-                    {"AND Vision = @Vision".If(!string.IsNullOrEmpty(condition.Vision))}
+                    {"AND Vision = @Vision".If(!string.IsNullOrEmpty(condition.IsVision))}
                     {"AND PlugType = @PlugType".If(!string.IsNullOrEmpty(condition.PlugType))}
-                    {"AND IsAgv = @IsAgv".If(!string.IsNullOrEmpty(condition.IsAgv))}
+                    {"AND IsAgv = @IsAgv".If(!string.IsNullOrEmpty(condition.IsDC))}
                     {"AND HardwardVersion = @HardwardVersion".If(!string.IsNullOrEmpty(condition.HardwardVersion))}
                     {"AND HMI = @HMI".If(!string.IsNullOrEmpty(condition.HMI))}
-                    {"AND IsSemi = @IsSemi".If(!string.IsNullOrEmpty(condition.IsSemi))}
+                    {"AND IsSemi = @IsSemi".If(!string.IsNullOrEmpty(condition.HasSemiCertificate))}
                     {"AND ComplexCable = @ComplexCable".If(!string.IsNullOrEmpty(condition.ComplexCable))}
-                    {"AND IsESD = @IsESD".If(!string.IsNullOrEmpty(condition.IsESD))}
+                    {"AND IsESD = @IsESD".If(!string.IsNullOrEmpty(condition.HasESD))}
                     {"AND PalletProtect = @PalletProtect".If(!string.IsNullOrEmpty(condition.PalletProtect))}
-                    {"AND UsbforYes = @UsbforYes".If(!string.IsNullOrEmpty(condition.UsbforYes))}
-                    {"AND HasCommunication = @HasCommunication".If(!string.IsNullOrEmpty(condition.HasCommunication))}
+                    {"AND UsbforYes = @UsbforYes".If(!string.IsNullOrEmpty(condition.UsbforUserManual))}
+                    {"AND HasCommunication = @HasCommunication".If(!string.IsNullOrEmpty(condition.HasOptionCommunication))}
                     {"AND Customer LIKE @Customer".If(!string.IsNullOrEmpty(condition.Customer))}
             ";
         }
@@ -142,21 +181,21 @@ namespace DataAccess
             parameters.Add("No", condition.Id, DbType.Int32);
             parameters.Add("PartNumber", condition.PartNumber, DbType.String);
             parameters.Add("Description", condition.Description, DbType.String);
-            parameters.Add("ProductName", condition.ProductName, DbType.String);
+            parameters.Add("ProductName", condition.ProductLine, DbType.String);
             parameters.Add("ModelName", condition.ModelName, DbType.String);
             parameters.Add("Length", condition.Length, DbType.Int32);
-            parameters.Add("Vision", condition.Vision, DbType.String);
+            parameters.Add("Vision", condition.IsVision, DbType.String);
             parameters.Add("PlugType", condition.PlugType, DbType.String);
-            parameters.Add("IsAgv", condition.IsAgv, DbType.String);
+            parameters.Add("IsAgv", condition.IsDC, DbType.String);
             parameters.Add("OS", condition.OS, DbType.String);
             parameters.Add("HardwardVersion", condition.HardwardVersion, DbType.String);
             parameters.Add("HMI", condition.HMI, DbType.String);
-            parameters.Add("IsSemi", condition.IsSemi, DbType.String);
+            parameters.Add("IsSemi", condition.HasSemiCertificate, DbType.String);
             parameters.Add("ComplexCable", condition.ComplexCable, DbType.String);
-            parameters.Add("IsESD", condition.IsESD, DbType.String);
+            parameters.Add("IsESD", condition.HasESD, DbType.String);
             parameters.Add("PalletProtect", condition.PalletProtect, DbType.String);
-            parameters.Add("UsbforYes", condition.UsbforYes, DbType.String);
-            parameters.Add("HasCommunication", condition.HasCommunication, DbType.String);
+            parameters.Add("UsbforYes", condition.UsbforUserManual, DbType.String);
+            parameters.Add("HasCommunication", condition.HasOptionCommunication, DbType.String);
             parameters.Add("Customer", condition.Customer, DbType.String);
 
             return parameters;

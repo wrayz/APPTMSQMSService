@@ -3,7 +3,7 @@ using OfficeOpenXml;
 
 namespace BusinessLogic.ExcelHelper
 {
-    public class TechmanExcelReader
+    public class TechmanExcelHelper
     {
         public IEnumerable<ProductSoftware> GetSoftwareList(ExcelFileInfo excel)
         {
@@ -52,7 +52,7 @@ namespace BusinessLogic.ExcelHelper
 
         public IEnumerable<ProductRobot> GetRobotList(ExcelFileInfo excel)
         {
-            List<ProductRobot> list = new List<ProductRobot>();
+            List<ProductRobot> list = new();
             foreach (var name in excel.sheetNames)
             {
                 var products = ConvertExcelRobots(excel, name);
@@ -86,12 +86,12 @@ namespace BusinessLogic.ExcelHelper
 
         private List<ProductRobot> ConvertExcelRobots(ExcelFileInfo excel, string sheetName)
         {
-            var robots = new List<ProductRobot>();
-            var filePath = FileUtil.GetFileInfo(excel.filePath, excel.fileName).FullName;
-            FileInfo existingFile = new FileInfo(filePath);
+            List<ProductRobot> robots = new();
+            string filePath = FileUtil.GetFileInfo(excel.filePath, excel.fileName).FullName;
+            FileInfo existingFile = new(filePath);
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            using (ExcelPackage package = new ExcelPackage(existingFile))
+            using (ExcelPackage package = new(existingFile))
             {
                 //Get the worksheet in the workbook
                 ExcelWorksheet sheet = package.Workbook.Worksheets[sheetName];
@@ -103,24 +103,30 @@ namespace BusinessLogic.ExcelHelper
                     var item = new ProductRobot
                     {
                         //Id = Convert.ToInt32(sheet.Cells[i, 1].Value),
-                        PartNumber = (string)sheet.Cells[i, 2].Value,
-                        Description = (string)sheet.Cells[i, 3].Value,
-                        ProductName = (string)sheet.Cells[i, 4].Value,
+                        PartNumber = (string)sheet.Cells[i, 1].Value,
+                        Description = (string)sheet.Cells[i, 2].Value,
+                        Specification = (string)sheet.Cells[i, 3].Value,
+                        ProductLine = (string)sheet.Cells[i, 4].Value,
                         ModelName = (string)sheet.Cells[i, 5].Value,
-                        Length = Convert.ToInt32(sheet.Cells[i, 6].Value),
-                        Vision = (string)sheet.Cells[i, 7].Value,
-                        PlugType = (string)sheet.Cells[i, 8].Value,
-                        IsAgv = (string)sheet.Cells[i, 9].Value,
-                        OS = (string)sheet.Cells[i, 10].Value,
-                        HardwardVersion = sheet.Cells[i, 11].Value.ToString(), //double to string
-                        HMI = sheet.Cells[i, 12].Value.ToString(), //double to string
-                        IsSemi = (string)sheet.Cells[i, 13].Value,
-                        ComplexCable = (string)sheet.Cells[i, 14].Value,
-                        IsESD = (string)sheet.Cells[i, 15].Value,
-                        PalletProtect = (string)sheet.Cells[i, 16].Value,
-                        UsbforYes = (string)sheet.Cells[i, 17].Value,
-                        HasCommunication = (string)sheet.Cells[i, 18].Value,
-                        Customer = (string)sheet.Cells[i, 19].Value,
+                        OfficialProductName = (string)sheet.Cells[i,6].Value,
+                        Length = Convert.ToInt32(sheet.Cells[i, 7].Value),
+                        IsVision = (string)sheet.Cells[i, 8].Value,
+                        PlugType = (string)sheet.Cells[i, 9].Value,
+                        IsDC = (string)sheet.Cells[i, 10].Value,
+                        OS = (string)sheet.Cells[i, 11].Value,
+                        HardwardVersion = sheet.Cells[i, 12].Value.ToString(), //double to string
+                        HMI = sheet.Cells[i, 13].Value.ToString(), //double to string
+                        HasSemiCertificate = (string)sheet.Cells[i, 14].Value,
+                        ComplexCable = (string)sheet.Cells[i, 15].Value,
+                        HasESD = (string)sheet.Cells[i, 16].Value,
+                        PalletProtect = (string)sheet.Cells[i, 17].Value,
+                        UsbforUserManual = (string)sheet.Cells[i, 18].Value,
+                        HasOptionCommunication = (string)sheet.Cells[i, 19].Value,
+                        Customer = (string)sheet.Cells[i, 20].Value,
+                        HasCncCover = (string)sheet.Cells[i, 21].Value,
+                        Palletizing = (string)sheet.Cells[i, 22].Value,
+                        HasLightModule = (string)sheet.Cells[i, 23].Value,
+                        DDR = (string)sheet.Cells[i, 24].Value,
                     };
 
                     robots.Add(item);

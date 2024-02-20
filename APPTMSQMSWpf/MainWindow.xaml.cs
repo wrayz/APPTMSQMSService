@@ -30,8 +30,8 @@ namespace APPTMSQMSWpf
         {         
             InitializeComponent();
 
-            GetRobotList();
-            BidingData();
+            // GetRobotList();
+            // BidingData();
         }
 
         private void GetRobotList()
@@ -50,8 +50,8 @@ namespace APPTMSQMSWpf
             ExcelFileInfo? excel = new()
             {
                 filePath = "FakeData",
-                fileName = "TPK83R0102(0) Official Model and Part Number_TRI_211118.xlsx",
-                sheetNames = new string[] { "Robots-TM5A PN HW3.2", "Robots-TMAA PN HW3.2" }
+                fileName = "TPK83R0102(0) Official Model and Part Number_TRI_240115.xlsx",
+                sheetNames = new string[] { "Sheet1" }
             };
             var count = await _robotBLL.ImportData(excel);
             /*
